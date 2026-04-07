@@ -413,10 +413,24 @@ Checkpoint:
 Pause after the reading and answer these in your notes:
 
 1. Which collection interface would you choose for an attendance tracker, and why?
+Answer:
+I would choose a List because attendance may depend on the order students arrive, and duplicates might matter if tracking multiple check-ins.
+
 2. Which set implementation would you choose if insertion order matters?
-3. When would `Map.merge` be cleaner than repeated `if` checks?
+Answer:
+I would choose a LinkedHashSet because it maintains uniqueness while preserving the order in which elements were added.
+
+3. When would Map.merge be cleaner than repeated if checks?
+Answer:
+Map.merge is cleaner when updating values like counts or totals (e.g., incrementing enrollment), because it handles both existing and new keys in one step without separate if conditions.
+
 4. What causes fail-fast iterator errors?
-5. What is one example of a domain object that should implement `Iterable`?
+Answer:
+Fail-fast errors occur when a collection is modified during iteration in an unsafe way, such as changing the collection inside a for-each loop instead of using the iterator’s methods.
+
+5. What is one example of a domain object that should implement Iterable?
+Answer:
+A Playlist is a good example because it allows iteration over items in different orders, such as default order or priority order.
 
 ---
 
