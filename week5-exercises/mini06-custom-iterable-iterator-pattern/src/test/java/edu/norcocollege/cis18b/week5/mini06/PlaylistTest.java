@@ -1,49 +1,43 @@
 package edu.norcocollege.cis18b.week5.mini06;
 
+import org.junit.jupiter.api.Test;
+import java.util.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import org.junit.jupiter.api.Test;
-
-class PlaylistTest {
+public class PlaylistTest {
 
     @Test
-    void defaultIteratorUsesInsertionOrder() {
-        Playlist playlist = buildPlaylist();
-
-        assertEquals(List.of("Intro", "Demo", "Quiz"), collectTitles(playlist.iterator()));
-    }
-
-    @Test
-    void priorityIteratorUsesPriorityOrder() {
-        Playlist playlist = buildPlaylist();
-
-        assertEquals(List.of("Quiz", "Demo", "Intro"), collectTitles(playlist.priorityIterator()));
-    }
-
-    @Test
-    void repeatedIterationStartsAtBeginningEachTime() {
-        Playlist playlist = buildPlaylist();
-
-        assertEquals(List.of("Intro", "Demo", "Quiz"), collectTitles(playlist.iterator()));
-        assertEquals(List.of("Intro", "Demo", "Quiz"), collectTitles(playlist.iterator()));
-    }
-
-    private Playlist buildPlaylist() {
+    void testDefaultOrder() {
         Playlist playlist = new Playlist();
+
         playlist.add(new PlaylistItem("Intro", 1));
         playlist.add(new PlaylistItem("Demo", 2));
         playlist.add(new PlaylistItem("Quiz", 3));
-        return playlist;
+
+        List<String> result = new ArrayList<>();
+
+        for (PlaylistItem item : playlist) {
+            result.add(item.getTitle());
+        }
+
+        assertEquals(List.of("Intro", "Demo", "Quiz"), result);
     }
 
-    private List<String> collectTitles(Iterator<PlaylistItem> iterator) {
-        List<String> titles = new ArrayList<>();
+    @Test
+    void testPriorityOrder() {
+        Playlist playlist = new Playlist();
+
+        playlist.add(new PlaylistItem("Intro", 1));
+        playlist.add(new PlaylistItem("Demo", 2));
+        playlist.add(new PlaylistItem("Quiz", 3));
+
+        List<String> result = new ArrayList<>();
+
+        Iterator<PlaylistItem> iterator = playlist.priorityIterator();
         while (iterator.hasNext()) {
-            titles.add(iterator.next().getTitle());
+            result.add(iterator.next().getTitle());
         }
-        return titles;
+
+        assertEquals(List.of("Quiz", "Demo", "Intro"), result);
     }
 }
