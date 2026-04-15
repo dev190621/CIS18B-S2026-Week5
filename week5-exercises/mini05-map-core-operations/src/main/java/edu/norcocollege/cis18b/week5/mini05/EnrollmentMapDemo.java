@@ -1,11 +1,43 @@
 package edu.norcocollege.cis18b.week5.mini05;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class EnrollmentMapDemo {
+
+    private static class MutableKey {
+        private String section;
+
+        MutableKey(String section) {
+            this.section = section;
+        }
+
+        void setSection(String section) {
+            this.section = section;
+        }
+
+        @Override
+        public int hashCode() {
+            return section.hashCode();
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (!(obj instanceof MutableKey other)) {
+                return false;
+            }
+            return section.equals(other.section);
+        }
+
+        @Override
+        public String toString() {
+            return section;
+        }
+    }
 
     public static void main(String[] args) {
         Map<String, Integer> enrollment = new HashMap<>();
@@ -21,9 +53,7 @@ public class EnrollmentMapDemo {
         enrollment.compute("SEC-102", (key, value) -> value == null ? 1 : value + 2);
         enrollment.replace("SEC-102", enrollment.get("SEC-102"), 28);
 
-        enrollment.forEach((section, count) ->
-                System.out.println(section + " -> " + count)
-        );
+        enrollment.forEach((section, count) -> System.out.println(section + " -> " + count));
         System.out.println("Removed SEC-099");
         System.out.println("Updated with merge/compute operations.");
 
@@ -31,10 +61,17 @@ public class EnrollmentMapDemo {
         System.out.println("Defaults: " + defaults);
 
         Map<String, List<String>> departments = new HashMap<>();
-        departments.computeIfAbsent("CIS", key -> new ArrayList<>()).add("SEC-101");
-        departments.computeIfAbsent("CIS", key -> new ArrayList<>()).add("SEC-102");
+        departments.computeIfAbsent("CIS", key -> new java.util.ArrayList<>()).add("SEC-101");
+        departments.computeIfAbsent("CIS", key -> new java.util.ArrayList<>()).add("SEC-102");
         System.out.println("Grouped sections: " + departments);
 
-        System.out.println("Mutable key hazard: if a key changes after insertion, a hash-based map may no longer find it correctly.");
+        MutableKey key = new MutableKey("SEC-201");
+        Map<MutableKey, String> hazardMap = new HashMap<>();
+        hazardMap.put(key, "Stored value");
+
+        key.setSection("SEC-202");
+
+        System.out.println("Mutable key hazard: after changing the key field, lookup may fail in a HashMap.");
+        System.out.println("Mutable key hazard lookup result: " + hazardMap.get(key));
     }
 }

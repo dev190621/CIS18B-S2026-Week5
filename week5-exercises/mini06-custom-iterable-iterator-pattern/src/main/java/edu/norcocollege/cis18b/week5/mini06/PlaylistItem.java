@@ -1,6 +1,7 @@
 package edu.norcocollege.cis18b.week5.mini06;
 
 public class PlaylistItem {
+
     private final String title;
     private final int priority;
 
@@ -15,10 +16,5 @@ public class PlaylistItem {
 
     public int getPriority() {
         return priority;
-    }
-
-    @Override
-    public String toString() {
-        return title;
     }
 }

@@ -1,6 +1,9 @@
 package edu.norcocollege.cis18b.week5.mini06;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.Iterator;
+import java.util.List;
 
 public class Playlist implements Iterable<PlaylistItem> {
 
@@ -10,41 +13,20 @@ public class Playlist implements Iterable<PlaylistItem> {
         items.add(item);
     }
 
-    // Default traversal (insertion order)
     @Override
     public Iterator<PlaylistItem> iterator() {
-        return items.iterator();
+        return List.copyOf(items).iterator();
     }
 
-    // Priority traversal (highest priority first)
     public Iterator<PlaylistItem> priorityIterator() {
-        List<PlaylistItem> copy = new ArrayList<>(items);
-
-        copy.sort(Comparator
-                .comparingInt(PlaylistItem::getPriority)
-                .reversed());
-
-        return copy.iterator();
+        List<PlaylistItem> sorted = new ArrayList<>(items);
+        sorted.sort(Comparator.comparingInt(PlaylistItem::getPriority).reversed());
+        return sorted.iterator();
     }
 
-    // Helper for printing default order
-    public List<String> defaultOrderTitles() {
-        List<String> result = new ArrayList<>();
-        for (PlaylistItem item : this) {
-            result.add(item.getTitle());
-        }
-        return result;
-    }
-
-    // Helper for printing priority order
-    public List<String> priorityOrderTitles() {
-        List<String> result = new ArrayList<>();
-
-        Iterator<PlaylistItem> iterator = priorityIterator();
-        while (iterator.hasNext()) {
-            result.add(iterator.next().getTitle());
-        }
-
-        return result;
+    public Iterator<PlaylistItem> titleIterator() {
+        List<PlaylistItem> sorted = new ArrayList<>(items);
+        sorted.sort(Comparator.comparing(PlaylistItem::getTitle));
+        return sorted.iterator();
     }
 }

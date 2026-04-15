@@ -1,77 +1,36 @@
 package edu.norcocollege.cis18b.week5.mini04;
 
 import java.util.ArrayDeque;
-import java.util.ArrayList;
 import java.util.Deque;
-import java.util.List;
 
 public class DequeWorkbench {
 
     public static void main(String[] args) {
-        demonstrateQueue();
-        System.out.println();
-        demonstrateStack();
-        System.out.println();
-        System.out.println("Why not Stack? ArrayDeque is the preferred modern choice because Deque supports both queue and stack operations cleanly.");
+        runFifoDemo();
+        runLifoDemo();
     }
 
-    public static void demonstrateQueue() {
-        Deque<String> tickets = new ArrayDeque<>();
+    private static void runFifoDemo() {
+        Deque<String> helpDesk = new ArrayDeque<>();
 
-        tickets.addLast("import roster");
-        tickets.addLast("email reminder");
-        tickets.addFirst("urgent outage");
+        helpDesk.addLast("import roster");
+        helpDesk.addLast("email reminder");
+        helpDesk.addFirst("urgent outage");
 
-        System.out.println("Queue state: " + tickets);
-
-        while (!tickets.isEmpty()) {
-            System.out.println("FIFO processed: " + tickets.removeFirst());
-            System.out.println("Queue now: " + tickets);
+        while (!helpDesk.isEmpty()) {
+            System.out.println("FIFO processed: " + helpDesk.removeFirst());
         }
     }
 
-    public static void demonstrateStack() {
+    private static void runLifoDemo() {
         Deque<String> undoStack = new ArrayDeque<>();
 
-        undoStack.push("insert checkpoint");
         undoStack.push("rename file");
-        undoStack.push("delete temp note");
-
-        System.out.println("Stack state: " + undoStack);
+        undoStack.push("insert checkpoint");
+        undoStack.push("delete paragraph");
 
         while (!undoStack.isEmpty()) {
             System.out.println("Undo popped: " + undoStack.pop());
-            System.out.println("Stack now: " + undoStack);
         }
-    }
-
-    public static List<String> fifoOrder() {
-        Deque<String> tickets = new ArrayDeque<>();
-        List<String> processed = new ArrayList<>();
-
-        tickets.addLast("import roster");
-        tickets.addLast("email reminder");
-        tickets.addLast("close ticket");
-
-        while (!tickets.isEmpty()) {
-            processed.add(tickets.removeFirst());
-        }
-
-        return processed;
-    }
-
-    public static List<String> lifoOrder() {
-        Deque<String> undoStack = new ArrayDeque<>();
-        List<String> popped = new ArrayList<>();
-
-        undoStack.push("first edit");
-        undoStack.push("second edit");
-        undoStack.push("third edit");
-
-        while (!undoStack.isEmpty()) {
-            popped.add(undoStack.pop());
-        }
-
-        return popped;
     }
 }
